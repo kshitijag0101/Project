@@ -1,0 +1,98 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Include ag-Grid script -->
+
+
+
+<form method="post" action="{% url 'home' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+<div class="container">
+			<div>
+				<button onclick="onBtExport()" style="margin-bottom: 5px; font-weight: bold">Export to Excel</button>
+            </div></div>
+<h2 align="center" class="card-header">LLP Company</h2>
+
+<div id="ag-grid" class="ag-theme-alpine" style="height: 800px;"></div>
+
+
+<script>
+var gridOptions = {
+        columnDefs: [
+            { headerName: 'LLPIN', field: 'LLPIN', filter: true},
+            { headerName: 'LLP Name', field: 'llp_name', editable: true, filter: true},
+            { headerName: 'Founded', field: 'founded',  editable: true, filter: true},
+            { headerName: 'ROC Location', field: 'roc_location',  editable: true, filter: true},
+            { headerName: 'Status', field: 'status',  editable: true, filter: true},
+            { headerName: 'Industrial Activity', field: 'industrial_activity',  editable: true, filter: true},
+            { headerName: 'Activity Description', field: 'activity_description',  editable: true, filter: true},
+            { headerName: 'Description', field: 'description',  editable: true, filter: true},
+            { headerName: 'Obligation Of Contribution', field: 'obligation_of_contribution',  editable: true, filter: true},
+            { headerName: 'No. Partners', field: 'number_of_partners',  editable: true, filter: true},
+            { headerName: 'No. Designated Partners', field: 'number_of_designated_partners',  editable: true, filter: true},
+            { headerName: 'State', field: 'state',  editable: true, filter: true},
+            { headerName: 'District', field: 'district',  editable: true, filter: true},
+            { headerName: 'Address', field: 'address',  editable: true, filter: true},
+            { headerName: 'Month', field: 'month',  editable: true, filter: true},
+            { headerName: 'Year', field: 'year',  editable: true, filter: true},
+            { headerName: 'Email', field: 'email',  editable: true, filter: true}
+        ],
+        defaultColDef: {
+            filter: true,
+            sortable: true,
+            },
+        pagination: true,
+        paginationPageSize: 50,
+        enableRangeSelection: true,
+        clipboardDeliminator: '\t',
+
+        defaultColDef: {
+            sortable: true,
+            resizable: true,
+            minWidth: 200,
+            flex: 1,
+        },
+
+        onCellValueChanged: function (params) {
+                // Handle cell value changed event
+                updateDataInDatabase(params.data);
+            },
+        };
+
+
+        function onBtExport() {
+                gridOptions.api.exportDataAsExcel();
+            }
+        document.addEventListener('DOMContentLoaded', function () {
+            var llpData ={{ llp_data|safe }};
+            var grid = new agGrid.Grid(document.querySelector('#ag-grid'), gridOptions);
+            gridOptions.api.setRowData(llpData);
+        });
+
+
+        function updateDataInDatabase(updatedData) {
+            fetch('/update_llp_data/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedData),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Data updated successfully:', data);
+                })
+                .catch(error => {
+                    console.error('Error updating data:', error);
+                });
+            }
+
+</script>
+
+{% endblock %}
+
+

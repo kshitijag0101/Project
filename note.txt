@@ -1,0 +1,94 @@
+
+
+----------------------------
+https://muleif.medium.com/how-to-install-mysql-on-amazon-linux-2023-5d39afa5bf11
+https://jainsaket-1994.medium.com/installing-crontab-on-amazon-linux-2023-ec2-98cf2708b171
+sudo yum update
+sudo yum search docker
+sudo yum info docker
+sudo yum install docker
+sudo service docker start
+
+----------
+
+ docker build -t django_pro .
+docker run -p 8000:8000 django_pro
+ -----------------------
+docker pull mysql
+
+
+
+
+
+docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=django@123 -e MYSQL_DATABASE=django_project -e MYSQL_USER=myuser -e MYSQL_PASSWORD=django@123 -d -p 3306:3306 mysql
+
+
+mysqldump -u root -p --django_project `django@123` > output_file.sql
+
+mysqldump -u root -p django@123 django_project > output_file.sql
+
+
+mysql -u root -p
+
+---------------------------------------------------
+
+
+FROM python:3.9-slim
+
+RUN apt-get update && apt-get -y install tzdata
+
+RUN echo "Asia/Calcutta" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata
+
+RUN apt-get -y install python3 python3-pip cron vim wget s3cmd
+
+
+WORKDIR /home/ec2-user/GovtProject
+
+COPY crontab_1 /etc/cron.d/crontab
+
+COPY lockrun /usr/local/bin/lockrun
+
+RUN chmod 0777 /usr/local/bin/lockrun
+
+RUN chmod 0644 /etc/cron.d/crontab
+
+COPY requirements.txt .
+RUN pip3 install --no-cache-dir -r requirements.txt
+COPY . .
+
+RUN /usr/bin/crontab /etc/cron.d/crontab
+
+
+RUN touch /var/log/cron.log
+
+ENV TZ Asia/Calcutta
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+CMD cron && tail -f /var/log/cron.log
+
+
+
+/home/ec2-user/GovtProject/backup_script.sh
+
+
+
+sudo docker exec mysql-container /user/bin/mysqldump -uroot --password=django@123 django_project> ~/backup1.sql
+sudo docker exec mysql-container mysqldump -uroot --password=django@123 django_project> ~/backup1.sql
+sudo docker exec mysql-container mysqldump -h 65.0.73.255 -P 3306 -u root -pdjango@123 django_project > /backup/$BACKUP_FILENAME
+
+docker exec <your-mysql-container> mysqldump -uroot -p<your-mysql-password> <your-database> > backup.sql
+
+
+
+
+
+
+chmod 600
+
+* * * * * /home/ec2-user/backup.sh
+
+mysqldump --defaults-extra-file=/home/ec2-user/config.cnf -h 52.66.53.122 -u root -p django_project > backup.sql
+
+
+* * * * * /usr/bin/python3 /home/ec2-user/pythonscript_emailupdate.py

@@ -1,0 +1,138 @@
+<!-- import_excel.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* Apply general styling to form elements */
+    form {
+        max-width: 600px;
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    label[for="id_year"] {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    #id_year {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    input[type="file"] {
+        display: block;
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .btn {
+        background-color: #28a745;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    /* Add more styling as needed */
+
+</style>
+
+
+<div class="card text-center">
+    <h2 class="card-header">Import excel file</h2>
+    <div class="container mt-5">
+
+        <div class="card-body">
+
+            <form method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+
+                {% csrf_token %}
+
+
+                <div class="form-group">
+                    <label for="{{ form.file.id_for_label }}" class="form-label">{{ form.file.label_tag }}</label>
+                    {{ form.file }}
+                    <span id="fileError" class="text-danger">{{ form.file.errors }}</span>
+                    <!-- Display file validation error here -->
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.year.id_for_label }}" class="form-label">{{ form.year.label}}</label>
+                    {{ form.year }}
+                    <span class="text-danger">{{ form.year.errors }}</span>
+                    <!-- Display year validation error here -->
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.category.id_for_label }}" class="form-label">{{ form.category.label}}</label>
+                    {{ form.category }}
+                    <span class="text-danger">{{ form.category.errors }}</span>
+                    <!-- Display category validation error here -->
+                </div>
+
+                <div class="form-group">
+                    <label for="{{ form.month.id_for_label }}" class="form-label">{{ form.month.label}}</label>
+                    {{ form.month }}
+                    <span class="text-danger">{{ form.month.errors }}</span>
+                    <!-- Display month validation error here -->
+                </div>
+                {% if missing_columns %}
+                <div class="text-danger">
+                    <p>Missing columns: {{ missing_columns|join:", " }}</p>
+                </div>
+                {% endif %}
+
+                <label>
+                    <button type="submit" class="btn btn-outline-success">Submit</button>
+                </label>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<script>
+    function validateForm() {
+        var fileInput = document.getElementById('id_file');
+        var fileError = document.getElementById('fileError');
+
+
+        // Check if the file has a .xlsx extension
+        var fileName = fileInput.files[0].name;
+        if  (!(fileName.endsWith('.xlsx') || fileName.endsWith('.xls'))) {
+            fileError.innerText = 'Please upload a valid xlsx file.';
+            return false;
+        }
+
+        // Clear any previous error messages
+        fileError.innerText = '';
+
+        // Continue with form submission
+        return true;
+    }
+
+
+</script>
+
+{% endblock %}

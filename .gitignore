@@ -1,0 +1,53 @@
+ngnix_dict
+django.pem
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Caches
+*.sqlite3
+
+# Virtual environment
+venv/
+.env
+
+# Logs
+*.log
+
+# Environment variables
+.env
+
+# Static files
+staticfiles/
+
+# Media files
+media/
+
+# Database
+db.sqlite3
+
+# Local development settings
+local_settings.py
+
+# Secret key
+secret_key.txt
+
+# Compiled Python files
+*.pyc
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# IDE files
+.idea/
+
+# Dependency directories
+lib/
+lib64/
+bin/

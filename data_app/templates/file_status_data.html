@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+			<div>
+				<button onclick="onBtExport()" style="margin-bottom: 5px; font-weight: bold">Export to Excel</button>
+            </div></div>
+<h2 align="center" class="card-header">Insert File Status</h2>
+<div id="ag-grid" class="ag-theme-alpine" style="height: 800px;"></div>
+
+
+<script>
+var gridOptions = {
+        columnDefs: [
+            { headerName: 'File Name', field: 'file_name',  sortable: true,  filter: true },
+            { headerName: 'year', field: 'year', sortable: true,  filter: true},
+            { headerName: 'month', field: 'month',  sortable: true, filter: true},
+            { headerName: 'is_active', field: 'is_active',  sortable: true, filter: true}
+        ],
+
+       defaultColDef: {
+            filter: true,
+            sortable: true,
+            },
+        pagination: true,
+        paginationPageSize: 50,
+        enableRangeSelection: true,
+        clipboardDeliminator: '\t',
+
+        defaultColDef: {
+            sortable: true,
+            resizable: true,
+            minWidth: 200,
+            flex: 1,
+            },
+
+        onCellValueChanged: function (params) {
+                // Handle cell value changed event
+                updateDataInDatabase(params.data);
+            },
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var grid = new agGrid.Grid(document.querySelector('#ag-grid'), gridOptions);
+            var fcinData ={{ status_data|safe }};
+            gridOptions.api.setRowData(fcinData);
+        });
+
+        function onBtExport() {
+            gridOptions.api.exportDataAsExcel();
+        }
+
+
+</script>
+{% endblock %}

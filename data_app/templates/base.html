@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/headers/">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-grid.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css"/>
+    <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ag-grid-enterprise@30.2.1/dist/ag-grid-enterprise.min.js">
+    </script>
+
+    <style>
+
+
+    /* Style for the form */
+    form {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        text-align: center; /* Center the form content */
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+    }
+
+    select {
+        width: calc(100% - 20px); /* Adjust width to leave space for the button */
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        display: inline-block; /* Display the select as an inline-block element */
+    }
+
+    button {
+        width: auto; /* Allow the button to take its natural width */
+        padding: 10px;
+        border: 1px solid #4caf50;
+        background-color: #4caf50;
+        color: white;
+        cursor: pointer;
+        border-radius: 4px;
+        box-sizing: border-box;
+        display: inline-block; /* Display the button as an inline-block element */
+    }
+
+    button:hover {
+        background-color: #45a049;
+    }
+
+    /* Style for the result table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #4caf50;
+        color: white;
+    }
+
+    </style>
+</head>
+<body>
+
+
+<main>
+
+    <div class="container">
+        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+            <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap">
+                    <use xlink:href="#bootstrap"/>
+                </svg>
+            </a>
+
+            <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+                <li><a href="{% url 'home' %}" class="nav-link px-2 link-secondary"><b>View</b></a></li>
+                <li><a href="{% url 'import_excel' %}" class="nav-link px-2 link-dark"><b>Bulk Insert</b></a></li>
+                <li><a href="{% url 'status_data' %}" class="nav-link px-2 link-dark"><b>Status</b></a></li>
+                <li><a href="{% url 'dashboard_data' %}" class="nav-link px-2 link-dark"><b>Dashboard</b></a></li>
+                <li><a href="{% url 'file_status_data' %}" class="nav-link px-2 link-dark"><b>File Insert Status</b></a></li>
+            </ul>
+
+            <div class="col-md-3 text-end">
+                <a type="button" class="btn btn-primary" href="{% url 'logout' %}"> Logout</a>
+
+
+            </div>
+        </header>
+    </div>
+
+
+
+
+</main>
+   <div class="container overflow-hidden">
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

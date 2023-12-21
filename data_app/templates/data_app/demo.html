@@ -1,0 +1,37 @@
+<!-- Include ag-Grid stylesheet and JavaScript in your HTML template -->
+<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-grid.css" />
+<link rel="stylesheet" href="https://unpkg.com/ag-grid-community/styles/ag-theme-alpine.css" />
+<script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
+
+<!-- Your HTML template -->
+<div id="ag-grid" class="ag-theme-alpine" style="height: 500px;"></div>
+
+<script>
+    // Your JavaScript code
+document.addEventListener('DOMContentLoaded', function () {
+    var gridOptions = {
+        columnDefs: [
+            { headerName: 'First Name', field: 'first_name' },
+            { headerName: 'Last Name', field: 'last_name' },
+            { headerName: 'Email', field: 'email' },
+            // Add other columns as needed
+        ],
+        defaultColDef: {
+            sortable: true,
+            filter: true,
+        },
+        // Add other ag-Grid configurations as needed
+    };
+
+    // Fetch employee data from Django API endpoint
+    fetch('/api/indian_company_list/')
+        .then(response => response.json())
+        .then(data => {
+            gridOptions.api.setRowData(data);
+        });
+
+    // Initialize ag-Grid
+    new agGrid.Grid(document.querySelector('#ag-grid'), gridOptions);
+});
+
+</script>

@@ -1,0 +1,25 @@
+
+#*/5 * * * * /usr/bin/curl -X POST -d http://65.2.34.101:8000/update_mail/
+
+#* * * * * curl --location --request POST 'http://65.2.34.101:8000/update_mail/'
+
+* * * * * curl -s -o /dev/null http://65.2.34.101:8000/update_mail/
+
+
+* * * * * /home/ec2-user/GovtProject/backup_script.sh
+
+
+#* * * * * /bin/bash /home/ec2-user/backup.sh
+
+
+0 0 * * * /bin/bash /home/ec2-user/dayonce_backup.sh
+
+0 */12 * * * /bin/bash /home/ec2-user/daily_backup.sh
+
+0 0 1 * * /bin/bash /home/ec2-user/monthly_backup.sh
+
+0 0 * * 0 /bin/bash /home/ec2-user/weekly_backup.sh
+
+* * * * * curl -s -o /dev/null http://52.66.53.122:8000/update_mail/
+
+*/5 * * * * /usr/bin/python3 /home/ec2-user/company_datainsert.py
